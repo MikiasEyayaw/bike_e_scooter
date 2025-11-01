@@ -62,6 +62,7 @@ flutter:
     - assets/images/logo/
     - assets/images/auth/
     - assets/images/ride/
+    - assets/images/support/
     - assets/images/profile/
     - assets/images/misc/
     - assets/icons/nav/
