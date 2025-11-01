@@ -7,6 +7,7 @@ import '../features/ride_history/screens/ride_history_screen.dart';
 import '../features/wallet/screens/wallet_screen.dart';
 import '../features/profile/screens/profile_screen.dart';
 import '../features/support/screens/help_screen.dart';
+import '../features/auth/screen/verification.dart'; // ✅ added import
 import 'route_names.dart';
 
 class AppRouter {
@@ -57,6 +58,12 @@ class AppRouter {
       case RouteNames.support:
         return MaterialPageRoute(
           builder: (_) => const HelpScreen(),
+        );
+
+      // ✅ new route added here
+      case RouteNames.verification:
+        return MaterialPageRoute(
+          builder: (_) => const VerificationScreen(),
         );
 
       default:
