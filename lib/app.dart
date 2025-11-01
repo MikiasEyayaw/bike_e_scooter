@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'RideNow',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: RouteNames.login,
+      initialRoute: RouteNames.verification,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }
