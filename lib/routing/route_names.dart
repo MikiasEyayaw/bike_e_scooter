@@ -8,5 +8,6 @@ class RouteNames {
   static const String wallet = '/wallet';
   static const String profile = '/profile';
   static const String support = '/support';
-  static const String verification = '/verification'; // ✅ added route name
+  static const String rewards = '/rewards';
+  static const String verification = '/verification';
 }
