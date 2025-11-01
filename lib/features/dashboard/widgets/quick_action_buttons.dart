@@ -1,3 +1,4 @@
+// widgets/quick_action_buttons.dart
 import 'package:flutter/material.dart';
 
 class QuickActionButtons extends StatelessWidget {
@@ -5,20 +6,13 @@ class QuickActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.qr_code),
-          label: const Text('Scan to Ride'),
-        ),
-        ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.history),
-          label: const Text('History'),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+        ],
+      ),
     );
   }
 }

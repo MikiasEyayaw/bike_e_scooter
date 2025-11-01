@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Switch(
           value: _darkMode,
           onChanged: (v) => setState(() => _darkMode = v),
-          activeColor: Colors.green,
+          activeThumbColor: Colors.green,
         ),
       ),
     ],
@@ -159,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Switch(
           value: _biometricLogin,
           onChanged: (v) => setState(() => _biometricLogin = v),
-          activeColor: Colors.green,
+          activeThumbColor: Colors.green,
         ),
       ),
     ],

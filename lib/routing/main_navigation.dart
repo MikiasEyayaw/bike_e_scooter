@@ -40,7 +40,7 @@ class _MainNavigationState extends State<MainNavigation> {
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
+            icon: Icon(Icons.home_max_outlined),
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
