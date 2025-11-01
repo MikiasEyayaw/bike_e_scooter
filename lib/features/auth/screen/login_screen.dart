@@ -7,10 +7,42 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: CustomButton(
-          text: "Login",
-          onPressed: () {},
+      body: SafeArea( // <-- prevents content under status bar
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 100),
+              const Text(
+                'Welcome to ERide',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 50),
+
+              Image.asset('assets/images/auth/img.png',width: 400,height: 300,),
+
+              const SizedBox(height: 50),
+
+              Center(
+                child: CustomButton(
+                  text: 'Continue',
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(height: 30,),
+              Container(
+
+                child: ElevatedButton(
+                  onPressed: () {  },
+                  child: Text("Learn More"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

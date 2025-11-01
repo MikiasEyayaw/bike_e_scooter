@@ -13,7 +13,8 @@ import 'main_navigation.dart';
 import 'route_names.dart';
 
 class AppRouter {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings) 
+ {
     switch (settings.name) {
 
       // --- Splash / Login ---
