@@ -10,55 +10,81 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _darkMode = false, _biometricLogin = true;
   String _vehicle = 'Bike', _language = 'English';
+  String _name = 'Kebede', _phone = '+251 912 345 678';
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.grey[50],
-    appBar: AppBar(
-      title: const Text(
-        'Profile & Settings',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-      ),
-      centerTitle: true,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      foregroundColor: Colors.black,
-    ),
-    body: ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        _buildPersonalDetails(),
-        const SizedBox(height: 24),
-        _section("Preferences", _buildPreferences()),
-        _section("Security", _buildSecurity()),
-        _section("Support", _buildSupport()),
-        const SizedBox(height: 32),
-        _logoutButton(),
-      ],
-    ),
-  );
+  Widget build(BuildContext context) {
+    final backgroundColor = _darkMode ? Colors.grey[900]! : Colors.grey[50]!;
+    final cardColor = _darkMode ? Colors.grey[850]! : Colors.white;
+    final textColor = _darkMode ? Colors.white : Colors.black;
+    final subtitleColor = _darkMode ? Colors.grey[400]! : Colors.grey;
 
-  Widget _buildPersonalDetails() => _buildCard(
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        title: Text(
+          'Profile & Settings',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: textColor,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: textColor,
+        iconTheme: IconThemeData(color: textColor),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _buildPersonalDetails(cardColor, textColor, subtitleColor),
+          const SizedBox(height: 24),
+          _section(
+            "Preferences",
+            _buildPreferences(cardColor, textColor),
+            textColor,
+          ),
+          _section("Security", _buildSecurity(cardColor, textColor), textColor),
+          _section("Support", _buildSupport(cardColor, textColor), textColor),
+          const SizedBox(height: 32),
+          _logoutButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPersonalDetails(
+    Color cardColor,
+    Color textColor,
+    Color subtitleColor,
+  ) => _buildCard(
+    cardColor: cardColor,
     child: Row(
       children: [
         CircleAvatar(
           radius: 30,
           backgroundColor: Colors.green[100],
-          child: const Icon(Icons.person, size: 30, color: Colors.green),
+          child: Icon(Icons.person, size: 30, color: Colors.green),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Kebede',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                _name,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
               ),
               SizedBox(height: 4),
               Text(
-                '+251 912 345 678',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                _phone,
+                style: TextStyle(fontSize: 14, color: subtitleColor),
               ),
               SizedBox(height: 4),
               Row(
@@ -79,24 +105,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         IconButton(
-          onPressed: () => debugPrint('Edit profile tapped'),
-          icon: const Icon(Icons.edit, color: Colors.green),
+          onPressed: _editProfileDialog,
+          icon: Icon(Icons.edit, color: Colors.green),
         ),
       ],
     ),
   );
 
-  Widget _section(String title, Widget child) => Column(
+  Widget _section(String title, Widget child, Color textColor) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
         padding: const EdgeInsets.only(left: 8, bottom: 8),
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.grey,
+            color: textColor.withOpacity(0.7),
           ),
         ),
       ),
@@ -104,12 +130,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ],
   );
 
-  Widget _buildPreferences() => _buildCard(
+  Widget _buildPreferences(Color cardColor, Color textColor) => _buildCard(
+    cardColor: cardColor,
     children: [
       _tile(
         'Preferred Vehicle Type',
         DropdownButton<String>(
           value: _vehicle,
+          dropdownColor: cardColor,
+          style: TextStyle(color: textColor),
           items: [
             'Bike',
             'E-Scooter',
@@ -118,12 +147,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onChanged: (v) => setState(() => _vehicle = v!),
           underline: const SizedBox(),
         ),
+        textColor: textColor,
       ),
       _divider(),
       _tile(
         'Language',
         DropdownButton<String>(
           value: _language,
+          dropdownColor: cardColor,
+          style: TextStyle(color: textColor),
           items: [
             'English',
             'Amharic',
@@ -133,6 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onChanged: (v) => setState(() => _language = v!),
           underline: const SizedBox(),
         ),
+        textColor: textColor,
       ),
       _divider(),
       _tile(
@@ -142,16 +175,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onChanged: (v) => setState(() => _darkMode = v),
           activeColor: Colors.green,
         ),
+        textColor: textColor,
       ),
     ],
   );
 
-  Widget _buildSecurity() => _buildCard(
+  Widget _buildSecurity(Color cardColor, Color textColor) => _buildCard(
+    cardColor: cardColor,
     children: [
       _tile(
         'Change Password',
         const Icon(Icons.chevron_right, color: Colors.grey),
-        onTap: () => debugPrint('Change password tapped'),
+        onTap: _changePasswordDialog,
+        textColor: textColor,
       ),
       _divider(),
       _tile(
@@ -161,16 +197,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onChanged: (v) => setState(() => _biometricLogin = v),
           activeColor: Colors.green,
         ),
+        textColor: textColor,
       ),
     ],
   );
 
-  Widget _buildSupport() => _buildCard(
+  Widget _buildSupport(Color cardColor, Color textColor) => _buildCard(
     children: [
       _tile(
-        'Frequently Asked Questions',
+        'FAQ',
         const Icon(Icons.chevron_right, color: Colors.grey),
-        onTap: () => debugPrint('FAQ tapped'),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const _FAQScreen()),
+          );
+        },
+        textColor: textColor,
       ),
     ],
   );
@@ -181,7 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onPressed: _confirmLogout,
       style: OutlinedButton.styleFrom(
         foregroundColor: Colors.red,
-        side: const BorderSide(color: Colors.red),
+        side: BorderSide(color: Colors.red),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: const Text(
@@ -191,9 +234,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   );
 
-  // Shared Helpers
-  Widget _buildCard({Widget? child, List<Widget>? children}) => Card(
+  Widget _buildCard({
+    Widget? child,
+    List<Widget>? children,
+    Color cardColor = Colors.white,
+  }) => Card(
     elevation: 2,
+    color: cardColor,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     child: Padding(
       padding: const EdgeInsets.all(8),
@@ -201,8 +248,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   );
 
-  Widget _tile(String title, Widget trailing, {VoidCallback? onTap}) =>
-      ListTile(title: Text(title), trailing: trailing, onTap: onTap);
+  Widget _tile(
+    String title,
+    Widget trailing, {
+    VoidCallback? onTap,
+    Color textColor = Colors.black,
+  }) => ListTile(
+    title: Text(title, style: TextStyle(color: textColor)),
+    trailing: trailing,
+    onTap: onTap,
+  );
 
   Widget _divider() => const Divider(height: 1);
 
@@ -226,4 +281,195 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     ),
   );
+
+  // --- Edit Profile ---
+  void _editProfileDialog() {
+    final nameController = TextEditingController(text: _name);
+    final phoneController = TextEditingController(text: _phone);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Edit Profile'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Full Name'),
+            ),
+            TextField(
+              controller: phoneController,
+              decoration: const InputDecoration(labelText: 'Phone Number'),
+              keyboardType: TextInputType.phone,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _name = nameController.text;
+                _phone = phoneController.text;
+              });
+              Navigator.pop(context);
+              _showSuccessDialog('Profile updated successfully!');
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- Password Dialogs ---
+  void _changePasswordDialog() {
+    final currentController = TextEditingController();
+    final newController = TextEditingController();
+    final confirmController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Change Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: currentController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'Current Password'),
+            ),
+            TextField(
+              controller: newController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: 'New Password'),
+            ),
+            TextField(
+              controller: confirmController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Confirm New Password',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (currentController.text.isEmpty ||
+                  newController.text.isEmpty ||
+                  confirmController.text.isEmpty ||
+                  newController.text != confirmController.text) {
+                Navigator.pop(context);
+                _showTryAgainDialog(
+                  'Password change failed. Please check your inputs.',
+                );
+              } else {
+                Navigator.pop(context);
+                _showSuccessDialog('Password changed successfully.');
+              }
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showTryAgainDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Try Again'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Success'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// --- FAQ Screen ---
+class _FAQScreen extends StatelessWidget {
+  const _FAQScreen({super.key});
+
+  final List<Map<String, String>> faqs = const [
+    {
+      "question": "How do I unlock a bike or e-scooter?",
+      "answer": "Select a vehicle, scan the QR code, and start your ride.",
+    },
+    {
+      "question": "How is the ride charged?",
+      "answer": "You are charged per minute of the ride.",
+    },
+    {
+      "question": "What if the vehicle is damaged?",
+      "answer":
+          "Report the issue immediately via the app before starting a ride.",
+    },
+    {
+      "question": "Can I pause my ride?",
+      "answer":
+          "Yes, some vehicles support pausing. Check the vehicle status on the app.",
+    },
+    {
+      "question": "How do I end my ride?",
+      "answer": "Park at a legal location and press 'End Ride' in the app.",
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('FAQ')),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: faqs.length,
+        itemBuilder: (context, index) {
+          final faq = faqs[index];
+          return ExpansionTile(
+            title: Text(
+              faq['question']!,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(faq['answer']!),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 }
