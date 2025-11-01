@@ -3,6 +3,11 @@
         android:label="bike_e_scooter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+         <!-- ✅ Add this line below -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBlrgkWgjKh3T4nUi2dD3BXnySNAuakVVA" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
