@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+
+// Auth & Verification
 import '../features/auth/screen/login_screen.dart';
 import '../features/auth/screen/otp_verfication_screen.dart';
 import '../features/auth/screen/signup_screen.dart';
-import '../features/dashboard/screens/dashboard_screen.dart';
-import '../features/ride_history/screens/ride_history_screen.dart';
-import '../features/wallet/screens/wallet_screen.dart';
-import '../features/profile/screens/profile_screen.dart';
-import '../features/support/screens/help_screen.dart';
-import '../features/auth/screen/verification.dart'; // ✅ added import
+import '../features/auth/screen/verification.dart';
+
+// Main Navigation
+import 'main_navigation.dart';
+
+// Route Names
 import 'route_names.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+
+      // --- Splash / Login ---
       case RouteNames.splash:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
@@ -23,11 +27,13 @@ class AppRouter {
           builder: (_) => const LoginScreen(),
         );
 
+      // --- Signup ---
       case RouteNames.signup:
         return MaterialPageRoute(
           builder: (_) => const SignupScreen(),
         );
 
+      // --- OTP Verification ---
       case RouteNames.otpVerification:
         final args = settings.arguments as Map<String, dynamic>?;
         final phone = args?['phone'] ?? '';
@@ -35,37 +41,19 @@ class AppRouter {
           builder: (_) => OtpVerificationScreen(phoneNumber: phone),
         );
 
+      // --- Dashboard (with Bottom Navigation) ---
       case RouteNames.dashboard:
         return MaterialPageRoute(
-          builder: (_) => const DashboardScreen(),
+          builder: (_) => const MainNavigation(),
         );
 
-      case RouteNames.rideHistory:
-        return MaterialPageRoute(
-          builder: (_) => const RideHistoryScreen(),
-        );
-
-      case RouteNames.wallet:
-        return MaterialPageRoute(
-          builder: (_) => const WalletScreen(),
-        );
-
-      case RouteNames.profile:
-        return MaterialPageRoute(
-          builder: (_) => const ProfileScreen(),
-        );
-
-      case RouteNames.support:
-        return MaterialPageRoute(
-          builder: (_) => const HelpScreen(),
-        );
-
-      // ✅ new route added here
+      // --- Verification Screen ---
       case RouteNames.verification:
         return MaterialPageRoute(
           builder: (_) => const VerificationScreen(),
         );
 
+      // --- Default / Unknown Route ---
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
