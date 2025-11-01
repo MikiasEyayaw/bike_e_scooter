@@ -1,3 +1,5 @@
+import 'package:bike_e_scooter/features/auth/screen/verification.dart';
+import 'package:bike_e_scooter/features/support/screens/help_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_button.dart';
 
@@ -30,14 +32,22 @@ class LoginScreen extends StatelessWidget {
               Center(
                 child: CustomButton(
                   text: 'Continue',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,MaterialPageRoute(builder: (context)=>const VerificationScreen())
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 30,),
               Container(
 
                 child: ElevatedButton(
-                  onPressed: () {  },
+                  onPressed: () {
+                    Navigator.push(
+                        context,MaterialPageRoute(builder: (context)=>const HelpScreen()),
+                    );
+                  },
                   child: Text("Learn More"),
                 ),
               ),
